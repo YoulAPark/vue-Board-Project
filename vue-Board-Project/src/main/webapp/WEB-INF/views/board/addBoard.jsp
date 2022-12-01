@@ -1,0 +1,121 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+
+<!-- Bootstrap meta name 추가 -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+
+<title> addBoard.jsp </title>
+
+<!-- CDN Script Start -->
+	
+	<!-- jQuery -->	
+	<script defer src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+	
+	<!-- SweetAlert -->
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>	
+	
+	<!-- Bootstrap -->
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js" integrity="sha384-ODmDIVzN+pFdexxHEHFBQH3/9/vQ9uori45z4JjnFsRydbmQbmL5t1tQ0culUzyK" crossorigin="anonymous"></script>
+	
+<!-- CDN Script End -->	
+
+<!-- CSS style Start -->
+<style>
+	
+</style>
+<!-- CSS style End -->
+
+<script>
+
+	$(function() {
+		$('#save').on("click", function(){
+			boardSave();
+		});
+	});
+		
+	// no, title, content, date, writer, imgFile, readCount
+	function boardSave() {
+		var title = $("input[name="boardTitleList"]").val();
+		var content = $('#boardTitleList').val();
+		var writer = "testUser";
+		// var imgFile = "";
+		// var readCount = "";
+		
+		$.ajax({
+			url : "/board/json/addBoard"
+			,	method : "POST" 
+			,	dataType : "JSON" 
+			,	contentType : "application/json"
+			,	data : JSON.stringify({
+						"title" : title
+					,	"content" : content
+					,	"writer" : writer
+			})
+			,	success : function() {
+					alert("SUCCESS")
+					location.href = "/board/product-list";
+				}, error : function() {
+					console.log("실패")
+				}
+		});
+	}
+	
+	function updateBtn() {
+		var title = $("input[name=boardTitle]").val();
+		var content = $('#boardContentLabel').val();
+		alert("t : "+title)
+		alert("c : "+content)
+		$("form").attr("method" , "POST").attr("action" , "/board/updateBoard").submit();
+	}
+	
+</script>
+
+</head>
+<body>
+	<c:if test="${list==null}">
+		<form>	
+			<div class="mb-3"> <!-- name : boardTitle -->
+			  <label for="exampleFormControlInput1" class="form-label">제목</label>
+			  <input type="email" class="form-control" id="exampleFormControlInput1" name="boardTitle" placeholder="제목을 입력하세요">
+			</div>
+			<div class="mb-3"> <!-- id : boardContentLabel -->
+			  <label for="boardContentLabel" class="form-label">내용</label>
+			  <textarea class="form-control" id="boardContentLabel"></textarea>
+			</div>
+			<div class="mb-3">
+			  <label for="formFileSm" class="form-label">파일업로드</label>
+			  <input class="form-control form-control-sm" id="formFileSm" type="file">
+			</div>
+		</form>
+			<button type="button" id="save" class="btn btn-primary">저장</button>
+	</c:if>
+
+	<c:if test="${list!=null}">
+		<c:forEach var="list" items="${list}">
+		<form>
+		  <label for="exampleFormControlInput1" class="form-label">title</label>
+			  <input type="email" class="form-control" id="exampleFormControlInput1" name="boardTitleList" placeholder="${list.title}">
+			</div>
+			<div class="mb-3"> <!-- id : boardContentLabel -->
+			  <label for="boardContent" class="form-label">content</label>
+			  <textarea class="form-control" id="boardContentList" placeholder="${list.content}"></textarea>
+			</div>
+			<div class="mb-3">
+			  <label for="formFileSm" class="form-label">파일업로드</label>
+			  <input class="form-control form-control-sm" id="formFileSm" type="file">
+			</div>
+		</form>
+			<button type="button" onclick="updateBtn()" class="btn btn-primary">수정</button>
+			</c:forEach>
+	</c:if>
+</body>
+</html>

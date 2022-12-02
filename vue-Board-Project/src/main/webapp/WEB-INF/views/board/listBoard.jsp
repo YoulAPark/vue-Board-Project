@@ -38,7 +38,9 @@
 
 	$(function() {
 		$('#writeBoard').on("click", function(){
-			self.location = "/board/product-Board";
+			alert("GHkrdsl")
+			/* self.location = "/board/product-Board"; */
+			location.href="/board/product-Board";
 		});
 	});
 	

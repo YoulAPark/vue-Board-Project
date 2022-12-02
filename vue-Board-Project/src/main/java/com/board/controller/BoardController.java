@@ -1,16 +1,20 @@
 package com.board.controller;
 
+import java.io.OutputStream;
 import java.util.List;
 
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping;
 
 import com.board.domain.BoardVO;
@@ -42,9 +46,19 @@ public class BoardController {
 		return "/board/addBoard";
 	}
 	
-	@RequestMapping("/board/updateBoard")
-	public String updateBoard(@RequestBody BoardVO board) throws Exception {
+//	@RequestMapping("/updateBoard")
+//	public void updateBoard(@RequestBody BoardVO board) throws Exception {
+//		System.out.println("** : "+board.getTitle());
+//		System.out.println("** : "+board.getContent());
+//		System.out.println("updateBoard ***");
+//		boardService.updateBoard(board);
+//	}
+	
+	@PostMapping("/board/updateBoard")
+	public String updateBoard(@ModelAttribute("board") BoardVO board) throws Exception {
+		System.out.println("updateBoard service 진입 ** : "+board);
 		boardService.updateBoard(board);
+		System.out.println("확인");
 		return "/board/listBoard";
 	}
 

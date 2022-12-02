@@ -44,8 +44,8 @@
 		
 	// no, title, content, date, writer, imgFile, readCount
 	function boardSave() {
-		var title = $("input[name="boardTitleList"]").val();
-		var content = $('#boardTitleList').val();
+		var title = $("input[name='boardTitle']").val();
+		var content = $('#boardContentLabel').val();
 		var writer = "testUser";
 		// var imgFile = "";
 		// var readCount = "";
@@ -70,22 +70,29 @@
 	}
 	
 	function updateBtn() {
-		var title = $("input[name=boardTitle]").val();
-		var content = $('#boardContentLabel').val();
-		alert("t : "+title)
-		alert("c : "+content)
-		$("form").attr("method" , "POST").attr("action" , "/board/updateBoard").submit();
+		var no = $('#no').val();
+		var title = $("input[name='boardTitleList']").val();
+		var content = $('#boardContentList').val();
+		alert(no)
+		alert(title)
+		alert(content)
+		$(".boardList").attr("method" , "POST").attr("action" , "/board/updateBoard").submit();
+	}
+	
+	function backBtn() {
+		location.href="/boardx/product-list";
 	}
 	
 </script>
 
 </head>
 <body>
+	<!-- c:if : list값이 없을 경우 => insert할 수 있는 페이지 생성 -->
 	<c:if test="${list==null}">
 		<form>	
 			<div class="mb-3"> <!-- name : boardTitle -->
 			  <label for="exampleFormControlInput1" class="form-label">제목</label>
-			  <input type="email" class="form-control" id="exampleFormControlInput1" name="boardTitle" placeholder="제목을 입력하세요">
+			  <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="제목을 입력하세요" name="boardTitle">
 			</div>
 			<div class="mb-3"> <!-- id : boardContentLabel -->
 			  <label for="boardContentLabel" class="form-label">내용</label>
@@ -97,25 +104,30 @@
 			</div>
 		</form>
 			<button type="button" id="save" class="btn btn-primary">저장</button>
+			<button type="button" onclick="backBtn()" class="btn btn-primary">뒤로가기</button>
 	</c:if>
-
+	
+	<!-- c:if : list값이 있을 경우 => update를 할 수 있는 페이지 생성 -->
 	<c:if test="${list!=null}">
 		<c:forEach var="list" items="${list}">
-		<form>
-		  <label for="exampleFormControlInput1" class="form-label">title</label>
-			  <input type="email" class="form-control" id="exampleFormControlInput1" name="boardTitleList" placeholder="${list.title}">
-			</div>
-			<div class="mb-3"> <!-- id : boardContentLabel -->
-			  <label for="boardContent" class="form-label">content</label>
-			  <textarea class="form-control" id="boardContentList" placeholder="${list.content}"></textarea>
-			</div>
-			<div class="mb-3">
-			  <label for="formFileSm" class="form-label">파일업로드</label>
-			  <input class="form-control form-control-sm" id="formFileSm" type="file">
-			</div>
-		</form>
-			<button type="button" onclick="updateBtn()" class="btn btn-primary">수정</button>
-			</c:forEach>
+			<input type="hidden" id="no" value="${list.no}">
+			<form class="boardList">
+			  <label for="exampleFormControlInput1" class="form-label">title</label>
+				  <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="${list.title}" name="boardTitleList">
+				<div class="mb-3"> <!-- id : boardContentLabel -->
+				  <label for="boardContent" class="form-label">content</label>
+				  <textarea class="form-control" id="boardContentList" placeholder="${list.content}"></textarea>
+				</div>
+				
+				<div class="mb-3">
+				  <label for="formFileSm" class="form-label">파일업로드</label>
+				  <input class="form-control form-control-sm" id="formFileSm" type="file">
+				</div>
+				
+			</form>
+				<button type="submit" onclick="updateBtn()" class="btn btn-primary">수정</button>
+				
+		</c:forEach>
 	</c:if>
 </body>
 </html>

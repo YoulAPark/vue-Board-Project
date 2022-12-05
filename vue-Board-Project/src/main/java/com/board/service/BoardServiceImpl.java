@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.board.dao.BoardDao;
 import com.board.domain.BoardVO;
@@ -40,7 +39,6 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	public List<BoardVO> sortNo(BoardVO board) throws Exception {
-		System.out.println("impl 진입완료");
 		return boardDao.sortNo(board);
 	}
 }

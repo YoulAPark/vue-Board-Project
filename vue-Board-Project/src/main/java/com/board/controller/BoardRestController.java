@@ -1,8 +1,11 @@
 package com.board.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.board.domain.BoardVO;
 import com.board.service.BoardService;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
 
 @RestController
 @RequestMapping("/board/*")
@@ -51,11 +53,19 @@ public class BoardRestController {
 		return true;
 	}
 	
+//	@GetMapping("/json/sortNo")
+//	public boolean sortNo(BoardVO board, Model model) throws Exception {
+//		List<BoardVO> list = boardService.sortNo(board);
+//		model.addAttribute("list", list);
+//		System.out.println("list : "+list);
+//		return true;
+//	}
+	
 	@GetMapping("/json/sortNo")
-	public boolean sortNo(BoardVO board) throws Exception {
-		System.out.println("boardVO 진입완료");
-		boardService.sortNo(board);
-		return true;
+	public List<BoardVO> sortNo(BoardVO board, Model model) throws Exception {
+		List<BoardVO> list = boardService.sortNo(board);
+		model.addAttribute("list", list);
+		return list;
 	}
 	
 	

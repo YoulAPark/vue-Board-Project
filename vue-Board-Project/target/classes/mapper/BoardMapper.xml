@@ -6,8 +6,9 @@
 	
 	<select id="getBoard" 	resultType="com.board.domain.BoardVO">
 		SELECT
-			* 
-		FROM board
+			*
+		FROM
+			board
 	</select>
 	
 	<select id="getProduct" resultType="com.board.domain.BoardVO" parameterType="int"> 
@@ -55,7 +56,7 @@
 			*
 		FROM
 			board
-		ORDER BY no ASC;
+		ORDER BY no desc;
 	</select>
 </mapper>
 <!-- 

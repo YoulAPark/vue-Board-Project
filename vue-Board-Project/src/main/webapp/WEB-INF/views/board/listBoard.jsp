@@ -101,7 +101,7 @@
 		self.location = "/board/updatePage/"+no;
 	}
 	
-	function sortNo() {
+	/* function sortNo() {
 		$.ajax({
 			url : "/board/json/sortNo"
 		,	method : "GET"
@@ -110,12 +110,51 @@
 				"Accept" : "application/json" ,
 				"Content-Type" : "application/json"
 			}
-		,	success : function(JSONData, status) {
-			alert("성공 : "+JSONData)	
-			location.reload();
+			,	success: function(data){ */
+					/* alert("SUCCESS");
+               		
+					$.each(data, function(i){
+               			$("#noName").append(data[i]);
+               		}); */
+               		
+                	/* <td id='noName' name="no" onclick="updatePageMove(${board.no})" value="${board.no}">${board.no}</td>
+					<td id="titleName" onclick="getProduct(${board.no})" data-bs-toggle="modal" data-bs-target="#getProductList">${board.title}</td>
+					<td id="writerName">${board.writer}</td>
+					<td id="dateName"><fmt:formatDate pattern="yyyy-MM-dd" value="${board.date}"/></td>
+					<td id="readCountName">${board.readCount}</td>
+					<td><button type="button" onclick="delBoard(${board.no})" class="btn btn-primary">삭제</button></td>
+					 */
+					/* no += '<td>'+data[0].no+'</td>'
+					alert(no)
+					$("#noName").append(data[no]); */
+                
+                 
+                
+	                   /*  $.each(data, function(i){
+	                    	str += 	'<td>' + data[i].no + '</td>'
+		                   			'<td>' + data[i].title + '</td>'
+		                   			'<td>' + data[i].writer + '</td>'
+		                   			'<td>' + data[i].date + '</td>'
+		                   			'<td>' + data[i].readCount + '</td>'
+		                   			'<td>' + data[i].title + '</td>';
+	                    }); */
+	                    
+	                     /* $.each(data, function(index, item) { // 데이터 =item
+	    					$("#noName").append(item.no); // index가 끝날때까지 
+	    					$("#titleName").append(item.title);
+	    					$("#writerName").append(item.writer + " ");
+	    					$("#dateName").append(item.date + " ");
+	    					$("#readCountName").append(item.readCount + " ");
+	    					$("#table_body").append(item.title + "<br>");
+	    				});  */
+	                    
+	                   /* $('.table_body').append(str);	                
+			}, 
+				error : function(e) {
+				alert("ERROR : "+e)
 			}
-		});		
-	}
+		});
+	}*/
 	
 </script>
 
@@ -132,14 +171,14 @@
 					<th>삭제</button></th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody class="table_body">
 				<c:forEach var="board" items="${list}">
 					<tr>
-						<td name="no" onclick="updatePageMove(${board.no})">${board.no}</td>
-						<td onclick="getProduct(${board.no})" data-bs-toggle="modal" data-bs-target="#getProductList">${board.title}</td>
-						<td>${board.writer}</td>
-						<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.date}"/></td>
-						<td>${board.readCount}</td>
+						<td id="noName" name="no" onclick="updatePageMove(${board.no})" value="${board.no}">${board.no}</td>
+						<td id="titleName" onclick="getProduct(${board.no})" data-bs-toggle="modal" data-bs-target="#getProductList">${board.title}</td>
+						<td id="writerName">${board.writer}</td>
+						<td id="dateName"><fmt:formatDate pattern="yyyy-MM-dd" value="${board.date}"/></td>
+						<td id="readCountName">${board.readCount}</td>
 						<td><button type="button" onclick="delBoard(${board.no})" class="btn btn-primary">삭제</button></td>
 					</tr>
 				</c:forEach>

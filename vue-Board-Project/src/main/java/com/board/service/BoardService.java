@@ -13,5 +13,8 @@ public interface BoardService {
 	public void addBoard(BoardVO board) throws Exception;
 	public void deleteBoard(int no) throws Exception;
 	public void updateBoard(BoardVO board) throws Exception;
+	public void readCount(BoardVO board);
+	
+	public List<BoardVO> sortNo(BoardVO board) throws Exception;
 
 }

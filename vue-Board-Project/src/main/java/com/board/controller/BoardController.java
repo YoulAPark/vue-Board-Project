@@ -3,6 +3,8 @@ package com.board.controller;
 import java.io.OutputStream;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,26 +42,11 @@ public class BoardController {
 	}
 	
 	@RequestMapping("updatePage/{no}")
-	public String updatePage(Model model, @PathVariable("no") int no/*@RequestParam("no") int no*/) throws Exception {
+	public String updatePage(Model model, @PathVariable("no") int no) throws Exception {
 		List<BoardVO> list = boardService.getProduct(no);
 		model.addAttribute("list", list);
 		return "/board/addBoard";
 	}
 	
-//	@RequestMapping("/updateBoard")
-//	public void updateBoard(@RequestBody BoardVO board) throws Exception {
-//		System.out.println("** : "+board.getTitle());
-//		System.out.println("** : "+board.getContent());
-//		System.out.println("updateBoard ***");
-//		boardService.updateBoard(board);
-//	}
-	
-	@PostMapping("/board/updateBoard")
-	public String updateBoard(@ModelAttribute("board") BoardVO board) throws Exception {
-		System.out.println("updateBoard service 진입 ** : "+board);
-		boardService.updateBoard(board);
-		System.out.println("확인");
-		return "/board/listBoard";
-	}
 
 }

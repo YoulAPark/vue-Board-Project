@@ -35,4 +35,12 @@ public class BoardServiceImpl implements BoardService {
 		boardDao.updateBoard(board);
 	}
 
+	public void readCount(BoardVO board) {
+		boardDao.readCount(board);
+	}
+	
+	public List<BoardVO> sortNo(BoardVO board) throws Exception {
+		System.out.println("impl 진입완료");
+		return boardDao.sortNo(board);
+	}
 }

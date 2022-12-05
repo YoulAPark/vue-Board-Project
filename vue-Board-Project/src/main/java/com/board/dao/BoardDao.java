@@ -17,4 +17,7 @@ public interface BoardDao {
 	public void addBoard(BoardVO board) throws Exception; 
 	public void deleteBoard(int no);
 	public void updateBoard(BoardVO board);
+	public void readCount(BoardVO board);
+	
+	public List<BoardVO> sortNo(BoardVO board) throws Exception;
 }

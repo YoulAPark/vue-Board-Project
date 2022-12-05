@@ -61,8 +61,7 @@
 					,	"writer" : writer
 			})
 			,	success : function() {
-					alert("SUCCESS")
-					location.href = "/board/product-list";
+					location.href="/board/product-list";
 				}, error : function() {
 					console.log("실패")
 				}
@@ -71,16 +70,31 @@
 	
 	function updateBtn() {
 		var no = $('#no').val();
-		var title = $("input[name='boardTitleList']").val();
-		var content = $('#boardContentList').val();
-		alert(no)
-		alert(title)
-		alert(content)
-		$(".boardList").attr("method" , "POST").attr("action" , "/board/updateBoard").submit();
+		var title = $("input[name='updateBoardTitle']").val();
+		var content = $("input[name='updateBoardContent']").val();
+		var writer = $("input[name='updateBoardWriter']").val();
+		
+		$.ajax({
+			url : "/board/json/updateBoard"
+			,	method : "POST" 
+			,	dataType : "JSON" 
+			,	contentType : "application/json"
+			,	data : JSON.stringify({
+						"no" : no
+					,	"title" : title
+					,	"content" : content
+					,	"writer" : writer
+			})
+			,	success : function() {
+					location.href="/board/product-list";
+				}, error : function() {
+					console.log("실패")
+				}
+		});
 	}
 	
 	function backBtn() {
-		location.href="/boardx/product-list";
+		location.href="/board/product-list";
 	}
 	
 </script>
@@ -108,26 +122,36 @@
 	</c:if>
 	
 	<!-- c:if : list값이 있을 경우 => update를 할 수 있는 페이지 생성 -->
-	<c:if test="${list!=null}">
-		<c:forEach var="list" items="${list}">
-			<input type="hidden" id="no" value="${list.no}">
-			<form class="boardList">
-			  <label for="exampleFormControlInput1" class="form-label">title</label>
-				  <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="${list.title}" name="boardTitleList">
-				<div class="mb-3"> <!-- id : boardContentLabel -->
-				  <label for="boardContent" class="form-label">content</label>
-				  <textarea class="form-control" id="boardContentList" placeholder="${list.content}"></textarea>
-				</div>
+	<form class="boardList">
+		<c:if test="${list!=null}">
+			<c:forEach var="board" items="${list}">
+				<input type="hidden" id="no" value="${board.no}">
 				
-				<div class="mb-3">
-				  <label for="formFileSm" class="form-label">파일업로드</label>
-				  <input class="form-control form-control-sm" id="formFileSm" type="file">
-				</div>
+					<div>
+					  <label for="exampleFormControlInput1" class="form-label">title</label>
+					  <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="${board.title}" name="updateBoardTitle">
+					</div>
+					
+					<div>
+					  <label for="boardContent" class="form-label">content</label>
+					  <input type="text" class="form-control" id="boardContent" placeholder="${board.content}" name="updateBoardContent">
+					</div>
+					
+					<div class="mb-3">
+						<label for="writerName" class="form-label">작성자</label>
+						<input type="text" class="form-control" id="writerName" placeholder="${board.writer}" name="updateBoardWriter">
+					</div>
+					
+					<div class="mb-3">
+						<label for="formFileSm" class="form-label">파일업로드</label>
+					  	<input class="form-control form-control-sm" id="formFileSm" type="file">
+					</div>
+					
 				
-			</form>
-				<button type="submit" onclick="updateBtn()" class="btn btn-primary">수정</button>
-				
-		</c:forEach>
-	</c:if>
+					<button type="submit" onclick="updateBtn()" class="btn btn-primary">수정</button>
+					
+			</c:forEach>
+		</c:if>
+	</form>
 </body>
 </html>

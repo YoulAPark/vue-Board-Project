@@ -22,7 +22,7 @@
 		INSERT INTO
 			board	( title, content, date, writer, imgFile, readCount )
 		VALUES
-					( #{title}, #{content}, now(), #{writer}, NULL, NULL )
+					( #{title}, #{content}, now(), #{writer}, NULL, 0 )
 	</insert>	
 	
 	<delete id="deleteBoard" parameterType="int">
@@ -31,44 +31,44 @@
 		WHERE no = #{no}
 	</delete>
 	
-	<update id="updateBoard" parameterType="int">
+	<update id="updateBoard">
 		UPDATE 
 			board
 		SET 
 				title = #{title}
 			,	content = #{content}
+			, 	date = now()
+			,	writer = #{writer}
 		WHERE no = #{no}
 	</update>
 	
-	<!--
-		[단 건 조회] 
-		
-	-->
+	<update id="readCount">
+		UPDATE
+			board
+		SET
+			readCount = readCount+1
+		WHERE no = #{no}		
+	</update>
 	
-	<!-- 
-		[INSERT]
-		INSERT INTO board 
-			(title, content, date, writer, imgFile, readCount) 
-		VALUES 
-			(#{title}, #{content}, now(), #{writer}, NULL, NULL); 
-	-->
-	
-	<!-- 
-		[UPDATE]
-		UPDATE board
-		SET 
-		title = #{title},
-		content = #{content}
-		WHERE no = #{no}
-	 -->
-	 
-	 <!-- 
-	 	[DELETE]
-	 	DELETE FROM board WHERE no = #{no}
-	 -->
-	
+	<select id="sortNo" resultType="com.board.domain.BoardVO">
+		SELECT
+			*
+		FROM
+			board
+		ORDER BY no ASC;
+	</select>
 </mapper>
+<!-- 
+NO 기준 오름차순
+select no, title, content, date
+from board
+ ORDER BY no desc;
 
+NO 기준 내림차순
+select no, title, content, date
+from board
+ORDER BY no asc;
+ -->
 <!--
 	유의사항
 	1. mapper id check

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
@@ -30,7 +31,6 @@
 
 <!-- CSS style Start -->
 <style>
-	
 </style>
 <!-- CSS style End -->
 
@@ -38,8 +38,6 @@
 
 	$(function() {
 		$('#writeBoard').on("click", function(){
-			alert("GHkrdsl")
-			/* self.location = "/board/product-Board"; */
 			location.href="/board/product-Board";
 		});
 	});
@@ -82,27 +80,41 @@
 		});
 	}
 	
-	/* function getProduct(no) {
-		
-		var no = $("input[name=no]").val();
-
+	function getProduct(no) {
 		$.ajax({
-					url : "/board/json/getProduct/"+no
-				,	method : "GET"
-				,	dataType : "JSON"
-				,	headers : {
-						"Accept" : "application/json" ,
-						"Content-Type" : "application/json"
-					}
-				,	success : function(JSONData, status) {
-						$('#title').val(JSONData.title);
-						$('#content').val(JSONData.content);
-						/* $('#writer').val(JSONData.prodPrice);
+			url : "/board/json/readCount"
+			,	method : "POST" 
+			,	dataType : "JSON" 
+			,	contentType : "application/json"
+			,	data : JSON.stringify({
+						"no" : no
+			})
+			,	success : function() {
+					location.href = "/board/product-list";
+				}, error : function() {
+					console.log("실패")
+				}
 		});
-	} */
+	}
 	
 	function updatePageMove(no) {
 		self.location = "/board/updatePage/"+no;
+	}
+	
+	function sortNo() {
+		$.ajax({
+			url : "/board/json/sortNo"
+		,	method : "GET"
+		,	dataType : "JSON"
+		,	headers : {
+				"Accept" : "application/json" ,
+				"Content-Type" : "application/json"
+			}
+		,	success : function(JSONData, status) {
+			alert("성공 : "+JSONData)	
+			location.reload();
+			}
+		});		
 	}
 	
 </script>
@@ -112,11 +124,11 @@
 <table class="table">
 			<thead>
 				<tr>
-					<th>글번호</th>
-					<th>제 목</th>
-					<th>글쓴이</th>
-					<th>작성일</th>
-					<th>조회수</th>
+					<th>글번호<button type="button" onclick="sortNo()" class="btn outline-secondary btn-sm"> 정렬</button></th>
+					<th>제 목<button type="button" class="btn outline-secondary btn-sm"> 정렬</button></th>
+					<th>글쓴이<button type="button" class="btn outline-secondary btn-sm"> 정렬</button></th>
+					<th>작성일<button type="button" class="btn outline-secondary btn-sm"> 정렬</button></th>
+					<th>조회수<button type="button" class="btn outline-secondary btn-sm"> 정렬</button></th>
 					<th>삭제</button></th>
 				</tr>
 			</thead>
@@ -126,7 +138,7 @@
 						<td name="no" onclick="updatePageMove(${board.no})">${board.no}</td>
 						<td onclick="getProduct(${board.no})" data-bs-toggle="modal" data-bs-target="#getProductList">${board.title}</td>
 						<td>${board.writer}</td>
-						<td>${board.date}</td>
+						<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.date}"/></td>
 						<td>${board.readCount}</td>
 						<td><button type="button" onclick="delBoard(${board.no})" class="btn btn-primary">삭제</button></td>
 					</tr>
@@ -138,7 +150,7 @@
 
 		
 <!--################## Modal ##################-->
-		<!-- <div class="modal fade" id="getProductList" tabindex="-1" aria-labelledby="#getProductListLabel" aria-hidden="true">
+	<!--  <div class="modal fade" id="getProductList" tabindex="-1" aria-labelledby="#getProductListLabel" aria-hidden="true">
 		  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 		    <div class="modal-content">
 		      <div class="modal-header">
@@ -170,6 +182,6 @@
 		      </div>
 		    </div>
 		  </div>
-		</div> -->
+		</div>-->
 </body>
 </html>
